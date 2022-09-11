@@ -67,7 +67,7 @@ class _CountState extends State<Count> {
     timer = Timer.periodic(
       const Duration(seconds: 1),
           (Timer timer) {
-        if(time.hour==0&&time.minute==0&&time.second==0){
+        if(time.minute==0&&time.second==0){
           stopTimer();
           return;
         }
