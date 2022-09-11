@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training/timer.dart';
+import 'package:training/count.dart';
 import 'package:training/rm_calc.dart';
 import 'package:training/home.dart';
 import 'package:training/calender.dart';
@@ -38,7 +38,7 @@ class _MainpageState extends State<Mainpage> {
   final _pages = [
     Home(),
     Calender(),
-    Timer(),
+    Count(),
     RmCalculator()
   ];
 
