@@ -20,8 +20,9 @@ class _RmCalculatorState extends State<RmCalculator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children:  [
+      body: SingleChildScrollView(
+        child: Column(
+         children: [
           SizedBox(height: 100),
           Center(
             child: Container(
@@ -159,22 +160,8 @@ class _RmCalculatorState extends State<RmCalculator> {
             ],
           ),
         ],
-      ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      )
+      )
     );
   }
 }
