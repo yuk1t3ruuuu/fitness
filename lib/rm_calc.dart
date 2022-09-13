@@ -28,8 +28,15 @@ class _RmCalculatorState extends State<RmCalculator> {
             child: Container(
                     width: 250,
                     height: 60,
-                    child: TextField(
-                      controller: weight_controller,
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return '値を入力してください';
+                         }
+                       },
+                       controller: weight_controller,
+                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(hintText: '使用重量', border: OutlineInputBorder()),
                        ),
                     ),
@@ -39,8 +46,15 @@ class _RmCalculatorState extends State<RmCalculator> {
             child: Container(
                     width: 250,
                     height: 60,
-                    child: TextField(
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                       validator: (value){
+                         if(value!.isEmpty){
+                           return '値を入力してください' ;
+                         }
+                       },
                        controller: rep_controller,
+                       keyboardType: TextInputType.number,
                        decoration: InputDecoration(hintText: 'レップ数', border: OutlineInputBorder()),
                        ),
                      ),
