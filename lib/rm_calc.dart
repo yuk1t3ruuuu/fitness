@@ -12,9 +12,12 @@ class _RmCalculatorState extends State<RmCalculator> {
   TextEditingController weight_controller = TextEditingController();
   TextEditingController rep_controller = TextEditingController();
   //ElevateButtonのOppressedの処理でエラーを出さないために仮で使う
-  double _result = 0;
   double a = 0;
   double b = 0;
+  double _weight = 0;
+  double _rep = 0;
+  int base_number = 10;
+
 
 
   @override
@@ -65,13 +68,15 @@ class _RmCalculatorState extends State<RmCalculator> {
               width: 130,
               height: 50,
               child:ElevatedButton(
-                //setStateのところは仮で記述している処理。
-                onPressed: (){setState((){_result = a + b;});},
+                onPressed: () => setState((){
+                  _weight = double.parse(weight_controller.text);
+                  _rep = double.parse(rep_controller.text);
+                }) ,
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
               ),
-               child: const Text('計算', style: TextStyle(color: Colors.white))),
+               child: const Text('1RM測定', style: TextStyle(color: Colors.white))),
             )
           ),
           Center(
@@ -83,13 +88,12 @@ class _RmCalculatorState extends State<RmCalculator> {
           Center(
             child: Container(
               alignment: Alignment.center,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black)
+              ),
               width: 250,
               height: 60,
-              child: TextField(
-                controller: rep_controller,
-                //ここのフォームは上記の使用重量とレップ数の計算結果が表示される、そのため一旦仮でフォームだけ作成
-                decoration: InputDecoration(hintText: 'RM', border: OutlineInputBorder()),
-              ),
+              child: Text(((_weight * (1 + (_rep / 40))) * base_number.floor() / base_number).toString()),
             ),
           ),
           SizedBox(height: 60,),
