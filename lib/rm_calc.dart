@@ -11,12 +11,73 @@ class _RmCalculatorState extends State<RmCalculator> {
 
   TextEditingController weight_controller = TextEditingController();
   TextEditingController rep_controller = TextEditingController();
-  //ElevateButtonのOppressedの処理でエラーを出さないために仮で使う
-  double a = 0;
-  double b = 0;
-  double _weight = 0;
-  double _rep = 0;
-  int base_number = 10;
+
+  double _weight = 0; //使用重量
+  double _rep = 0;  //レップ数
+  int base_number = 10;  //桁数調整のため使用
+  double _max_rm_result = 0; //1RMの計算結果を格納するため使用
+  double _rm3_result = 0; //3RMの計算結果を格納するため使用
+  double _rm8_result = 0; //8RMの計算結果を格納するため使用
+  double _rm12_result = 0; //12RMの計算結果を格納するため使用
+  double _rm15_result = 0; //15RMの計算結果を格納するため使用
+
+  max_rm_calc(){
+    //　使用重量*(1+(レップ数/40))で1RMを求められる
+   _max_rm_result = ((_weight * (1 + (_rep / 40))) * base_number).floor() / base_number;
+   return _max_rm_result;
+  }
+
+  rm3_calc(){
+    // 1RM/(1+(求めたいRM数/40)で任意のRM数を求められる
+    _rm3_result = ((_max_rm_result / (1 + (3 / 40))) * base_number).floor() / base_number;
+    return _rm3_result;
+  }
+
+  rm8_calc(){
+    _rm8_result = ((_max_rm_result / (1 + (8 / 40))) * base_number).floor() / base_number;
+    return _rm8_result;
+  }
+
+  rm12_calc(){
+    _rm12_result = ((_max_rm_result / (1 + (12 / 40))) * base_number).floor() / base_number;
+    return _rm12_result;
+  }
+
+  rm15_calc(){
+    _rm15_result = ((_max_rm_result / (1 + (15 / 40))) * base_number).floor() / base_number;
+    return _rm15_result;
+  }
+
+
+  Widget_show1RM() {
+    if(_max_rm_result == 0){
+      return Text(' ');
+    }
+    return Text((_max_rm_result).toString());
+  }
+
+
+  Widget_show3RM() {
+    if(_max_rm_result == 0){
+      return Text(' ');
+    }
+    return Text('${_rm3_result}kg以上');
+  }
+
+  Widget_show8_12RM() {
+    if(_max_rm_result == 0){
+      return Text(' ');
+    }
+    return Text('${_rm12_result}kg以上 ${_rm8_result}kg以下');
+  }
+
+  Widget_show15RM() {
+    if(_max_rm_result == 0){
+      return Text(' ');
+    }
+    return Text('${_rm15_result}kg以下');
+  }
+
 
 
 
@@ -40,7 +101,7 @@ class _RmCalculatorState extends State<RmCalculator> {
                        },
                        controller: weight_controller,
                        keyboardType: TextInputType.number,
-                      decoration: InputDecoration(hintText: '使用重量', border: OutlineInputBorder()),
+                      decoration: InputDecoration(hintText: '使用重量(kg)', border: OutlineInputBorder()),
                        ),
                     ),
           ),
@@ -58,7 +119,7 @@ class _RmCalculatorState extends State<RmCalculator> {
                        },
                        controller: rep_controller,
                        keyboardType: TextInputType.number,
-                       decoration: InputDecoration(hintText: 'レップ数', border: OutlineInputBorder()),
+                       decoration: InputDecoration(hintText: 'レップ数(回)', border: OutlineInputBorder()),
                        ),
                      ),
           ),
@@ -71,6 +132,11 @@ class _RmCalculatorState extends State<RmCalculator> {
                 onPressed: () => setState((){
                   _weight = double.parse(weight_controller.text);
                   _rep = double.parse(rep_controller.text);
+                  max_rm_calc();
+                  rm3_calc();
+                  rm8_calc();
+                  rm12_calc();
+                  rm15_calc();
                 }) ,
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
@@ -93,7 +159,7 @@ class _RmCalculatorState extends State<RmCalculator> {
               ),
               width: 250,
               height: 60,
-              child: Text(((_weight * (1 + (_rep / 40))) * base_number.floor() / base_number).toString()),
+              child: Widget_show1RM()
             ),
           ),
           SizedBox(height: 60,),
@@ -111,15 +177,12 @@ class _RmCalculatorState extends State<RmCalculator> {
                   padding: EdgeInsets.only(bottom: 15,left: 10),
                   child:Text('●', style: TextStyle(color: Colors.black))
               ),
-              Container(
-                width: 100,
-                height: 40,
-                padding: EdgeInsets.only(bottom: 15),
-                child: TextField()
-                ),
-              Container(
-                padding: EdgeInsets.only(bottom: 15),
-                child: Text('kg', style: TextStyle(color: Colors.black))
+              Expanded(child:Container(
+                  width: 100,
+                  height: 40,
+                  padding: EdgeInsets.only(bottom: 15),
+                  child: Widget_show8_12RM()
+              ),
               )
             ],
           ),
@@ -142,12 +205,8 @@ class _RmCalculatorState extends State<RmCalculator> {
                   width: 100,
                   height: 40,
                   padding: EdgeInsets.only(bottom: 15),
-                  child: TextField()
+                  child: Widget_show3RM()
               ),
-              Container(
-                  padding: EdgeInsets.only(bottom: 15),
-                  child: Text('kg', style: TextStyle(color: Colors.black))
-              )
             ],
           ),
           SizedBox(height: 10,),
@@ -169,12 +228,8 @@ class _RmCalculatorState extends State<RmCalculator> {
                   width: 100,
                   height: 40,
                   padding: EdgeInsets.only(bottom: 15),
-                  child: TextField()
+                  child: Widget_show15RM()
               ),
-              Container(
-                  padding: EdgeInsets.only(bottom: 15),
-                  child: Text('kg', style: TextStyle(color: Colors.black))
-              )
             ],
           ),
         ],
