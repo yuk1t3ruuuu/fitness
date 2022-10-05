@@ -21,6 +21,8 @@ class _RmCalculatorState extends State<RmCalculator> {
   double _rm12_result = 0; //12RMの計算結果を格納するため使用
   double _rm15_result = 0; //15RMの計算結果を格納するため使用
 
+  double? _device_width;
+
   max_rm_calc(){
     //　使用重量*(1+(レップ数/40))で1RMを求められる
    _max_rm_result = ((_weight * (1 + (_rep / 40))) * base_number).floor() / base_number;
@@ -53,7 +55,7 @@ class _RmCalculatorState extends State<RmCalculator> {
     if(_max_rm_result == 0){
       return Text(' ');
     }
-    return Text((_max_rm_result).toString());
+    return Text('${_max_rm_result}kg',style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold));
   }
 
 
@@ -61,21 +63,21 @@ class _RmCalculatorState extends State<RmCalculator> {
     if(_max_rm_result == 0){
       return Text(' ');
     }
-    return Text('${_rm3_result}kg以上');
+    return Text('${_rm3_result}kg以上',style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold));
   }
 
   Widget_show8_12RM() {
     if(_max_rm_result == 0){
       return Text(' ');
     }
-    return Text('${_rm12_result}kg以上 ${_rm8_result}kg以下');
+    return Text('${_rm12_result}kg以上 ${_rm8_result}kg以下',style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold));
   }
 
   Widget_show15RM() {
     if(_max_rm_result == 0){
       return Text(' ');
     }
-    return Text('${_rm15_result}kg以下');
+    return Text('${_rm15_result}kg以下',style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold));
   }
 
 
@@ -83,33 +85,28 @@ class _RmCalculatorState extends State<RmCalculator> {
 
   @override
   Widget build(BuildContext context) {
+
+    _device_width = MediaQuery.of(context).size.width;
+
     return Scaffold(
+      backgroundColor: Colors.grey[850],
       body: SingleChildScrollView(
         child: Column(
          children: [
-          SizedBox(height: 100),
-          Center(
-            child: Container(
-                    width: 250,
-                    height: 60,
-                    child: TextFormField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return '値を入力してください';
-                         }
-                       },
-                       controller: weight_controller,
-                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(hintText: '使用重量(kg)', border: OutlineInputBorder()),
-                       ),
-                    ),
+           SizedBox(height: 60),
+
+          Container(
+            padding: EdgeInsets.only(left: 10),
+            alignment: Alignment.bottomLeft,
+            width: _device_width,
+            height: 30,
+            color: Colors.grey[900],
+            child: Text('使用重量(kg)', style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold)),
           ),
-          SizedBox(height: 30),
-          Center(
-            child: Container(
-                    width: 250,
-                    height: 60,
+          Container(
+                    width: _device_width,
+                    height: 40,
+                    color: Colors.grey[850],
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                        validator: (value){
@@ -117,16 +114,57 @@ class _RmCalculatorState extends State<RmCalculator> {
                            return '値を入力してください' ;
                          }
                        },
-                       controller: rep_controller,
+                       controller: weight_controller,
                        keyboardType: TextInputType.number,
-                       decoration: InputDecoration(hintText: 'レップ数(回)', border: OutlineInputBorder()),
+                       decoration: InputDecoration(
+                           isDense: true,
+                           contentPadding: EdgeInsets.symmetric(
+                             horizontal: 15,
+                             vertical: 4
+                           ),
+                           hintText: '値を入力してください',
+                           border: InputBorder.none,
+                           hintStyle: TextStyle(color: Colors.grey[400])),
+                           style: TextStyle(color: Colors.grey[400])
                        ),
                      ),
-          ),
-          SizedBox(height: 30),
+           Container(
+             padding: EdgeInsets.only(left: 10),
+             alignment: Alignment.bottomLeft,
+             width: _device_width,
+             height: 30,
+             color: Colors.grey[900],
+             child: Text('レップ数(回)', style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold)),
+           ),
+           Container(
+             width: _device_width,
+             height: 40,
+             color: Colors.grey[850],
+             child: TextFormField(
+               autovalidateMode: AutovalidateMode.onUserInteraction,
+               validator: (value){
+                 if(value!.isEmpty){
+                   return '値を入力してください' ;
+                 }
+               },
+               controller: rep_controller,
+               keyboardType: TextInputType.number,
+               decoration: InputDecoration(
+                   isDense: true,
+                   contentPadding: EdgeInsets.symmetric(
+                     horizontal: 15,
+                     vertical: 4
+                   ),
+                   hintText: '値を入力してください',
+                   border: InputBorder.none,
+                   hintStyle: TextStyle(color: Colors.grey[400])),
+                   style: TextStyle(color: Colors.grey[400])
+             ),
+           ),
+           SizedBox(height: 30),
           Center(
             child:SizedBox(
-              width: 130,
+              width: _device_width,
               height: 50,
               child:ElevatedButton(
                 onPressed: () => setState((){
@@ -139,95 +177,104 @@ class _RmCalculatorState extends State<RmCalculator> {
                   rm15_calc();
                 }) ,
                 style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.greenAccent),
                   padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-              ),
-               child: const Text('1RM測定', style: TextStyle(color: Colors.white))),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))
+                ),
+               child: const Text('1RM', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold))),
             )
           ),
-          Center(
-            child: Icon(Icons.arrow_drop_down_outlined,color: Colors.black,size:30,),
-          ),
-          Center(
-            child: Icon(Icons.arrow_drop_down_outlined,color: Colors.black,size:30,),
-          ),
-          Center(
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black)
+          SizedBox(height: 50,),
+
+           Container(
+                   padding: EdgeInsets.only(left: 10),
+                   alignment: Alignment.bottomLeft,
+                   height: 60,
+                   width: _device_width,
+                   color: Colors.grey[900],
+                   child:Text('1RM', style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold))
+               ),
+           Row(
+             children: [
+               Container(
+                   padding: EdgeInsets.only(bottom: 10,left: 10),
+                   child:Text('●', style: TextStyle(color: Colors.black))
+               ),
+               Container(
+                   width: 100,
+                   height: 40,
+                   margin: EdgeInsets.only(top: 13),
+                   child: Widget_show1RM()
+               )
+             ],
+           ),
+           Container(
+                  padding: EdgeInsets.only(left: 10),
+                  alignment: Alignment.bottomLeft,
+                  height: 60,
+                  width: _device_width,
+                  color: Colors.grey[900],
+                  child:Text('筋肥大', style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold))
               ),
-              width: 250,
-              height: 60,
-              child: Widget_show1RM()
-            ),
-          ),
-          SizedBox(height: 60,),
           Row(
             children: [
               Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child:Text('筋肥大', style: TextStyle(color: Colors.black))
-              )
-            ],
-          ),
-          Row(
-            children: [
-              Container(
-                  padding: EdgeInsets.only(bottom: 15,left: 10),
+                  padding: EdgeInsets.only(left: 10),
                   child:Text('●', style: TextStyle(color: Colors.black))
               ),
-              Expanded(child:Container(
-                  width: 100,
-                  height: 40,
-                  padding: EdgeInsets.only(bottom: 15),
-                  child: Widget_show8_12RM()
-              ),
+              Expanded( //textを１行で表示するためにexpandedを使用
+                  child:Container(
+                      width: 100,
+                      height: 40,
+                      padding: EdgeInsets.only(top: 9, left: 3),
+                      child: Widget_show8_12RM()
+                  )
               )
             ],
           ),
           SizedBox(height: 10,),
+
+           Container(
+                  padding: EdgeInsets.only(left: 10),
+                  alignment: Alignment.bottomLeft,
+                  height: 60,
+                  width: _device_width,
+                  color: Colors.grey[900],
+                  child:Text('神経強化', style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold))
+              ),
           Row(
             children: [
               Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child:Text('神経強化', style: TextStyle(color: Colors.black))
-              )
-            ],
-          ),
-          Row(
-            children: [
-              Container(
-                  padding: EdgeInsets.only(bottom: 15,left: 10),
+                  padding: EdgeInsets.only(left: 10),
                   child:Text('●', style: TextStyle(color: Colors.black))
               ),
               Container(
                   width: 100,
                   height: 40,
-                  padding: EdgeInsets.only(bottom: 15),
+                  padding: EdgeInsets.only(top: 9, left: 3),
                   child: Widget_show3RM()
               ),
             ],
           ),
           SizedBox(height: 10,),
+          Container(
+                  padding: EdgeInsets.only(left: 10),
+                  alignment: Alignment.bottomLeft,
+                  height: 60,
+                  width: _device_width,
+                  color: Colors.grey[900],
+                  child:Text('筋持久力', style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold))
+              ),
           Row(
             children: [
               Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child:Text('筋持久力', style: TextStyle(color: Colors.black))
-              )
-            ],
-          ),
-          Row(
-            children: [
-              Container(
-                  padding: EdgeInsets.only(bottom: 15,left: 10),
+                  padding: EdgeInsets.only(left: 10, bottom: 10),
                   child:Text('●', style: TextStyle(color: Colors.black))
               ),
               Container(
                   width: 100,
-                  height: 40,
-                  padding: EdgeInsets.only(bottom: 15),
+                  height: 50,
+                  padding: EdgeInsets.only(top: 9, left: 3),
                   child: Widget_show15RM()
               ),
             ],

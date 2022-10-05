@@ -3,7 +3,7 @@ import 'package:training/count.dart';
 import 'package:training/rm_calc.dart';
 import 'package:training/home.dart';
 import 'package:training/calender.dart';
-import 'dart:async';
+
 
 void main() {
   runApp(const MyApp());
@@ -50,23 +50,27 @@ class _MainpageState extends State<Mainpage> {
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
-              label: 'ホーム'
+              label: 'ホーム',
+              backgroundColor: Color(0xFF303030)
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
-              label: 'スケジュール'
+              label: 'スケジュール',
+              backgroundColor: Color(0xFF303030)
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
-              label: 'タイマー'
+              label: 'タイマー',
+              backgroundColor: Color(0xFF303030)
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
-              label: 'RM'
+              label: 'RM',
+              backgroundColor: Color(0xFF303030)
           )
         ],
-        unselectedItemColor: Colors.black,
-        selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.grey[400],
+        selectedItemColor: Colors.white,
         showUnselectedLabels: true,
         currentIndex: _activeIndex,
         onTap: (index){
