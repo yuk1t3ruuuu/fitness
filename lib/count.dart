@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
+import 'package:google_fonts/google_fonts.dart';
 
 class Count extends StatefulWidget {
   const Count({Key? key}) : super(key: key);
@@ -89,55 +90,113 @@ class _CountState extends State<Count> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.grey[850],
         body: Column(
           children: [
             const SizedBox(height: 120,),
-            Container(
-                child: Center(
-                    child:Text(DateFormat.ms().format(time),style: const TextStyle(fontSize: 100, fontWeight: FontWeight.bold),)
-                )
+            Material(
+              color: Colors.grey[850],
+              elevation: 30,
+              child: Container(
+                  alignment: Alignment.center,
+                  width: 300,
+                  height: 110,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.grey[800],
+                  ),
+                  child: Text(DateFormat.ms().format(time),style: GoogleFonts.amiri(color: Colors.white, fontSize: 80, fontWeight: FontWeight.bold)),
+              )
             ),
             const SizedBox(height: 50),
             Row(
                 children:[
                   Container(
                       padding: const EdgeInsets.only(left: 20),
-                      child:Text('Minute', style: TextStyle(color: Colors.black),textAlign: TextAlign.left))
+                      child:Text('Minutes', style: GoogleFonts.amiri(color: Colors.grey[400], fontSize: 20),textAlign: TextAlign.left)
+                  )
                 ]
             ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  //setStateのところは仮で記述している処理。以下同じ
-                    onPressed: () => addMinute5(),
-                    style: ButtonStyle(
-                        padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                    ),
-                    child: const Text('+5', style: TextStyle(color: Colors.white))),
-                ElevatedButton(
-                    onPressed: () => substractMinute5(),
-                    style: ButtonStyle(
-                        padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                    ),
-                    child: const Text('-5', style: TextStyle(color: Colors.white))),
-                ElevatedButton(
-                    onPressed: () => addMinute1(),
-                    style: ButtonStyle(
-                        padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                    ),
-                    child: const Text('+1', style: TextStyle(color: Colors.white))),
-                ElevatedButton(
-                    onPressed: () => substractMinute1(),
-                    style: ButtonStyle(
-                        padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                    ),
-                    child: const Text('-1', style: TextStyle(color: Colors.white))),
+                SizedBox(
+                  height: 70,
+                  width: 70,
+                  child: ElevatedButton(
+                      onPressed: () => addMinute5(),
+                      style: ButtonStyle(
+                          padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                          shape: MaterialStateProperty.all(CircleBorder(
+                              side: BorderSide(
+                                  color: Colors.black,
+                                  width: 1,
+                                  style: BorderStyle.solid
+                              )
+                          )),
+                          backgroundColor: MaterialStateProperty.all(Colors.pink[900]),
+                          elevation: MaterialStateProperty.all(20)
+                      ),
+                      child: const Text('+5', style: TextStyle(color: Colors.black)))
+                ),
+                SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: ElevatedButton(
+                        onPressed: () => substractMinute5(),
+                        style: ButtonStyle(
+                            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                            shape: MaterialStateProperty.all(CircleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
+                                )
+                            )),
+                            backgroundColor: MaterialStateProperty.all(Colors.red[900]),
+                            elevation: MaterialStateProperty.all(20)
+                        ),
+                        child: const Text('-5', style: TextStyle(color: Colors.black)))
+                ),
+                SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: ElevatedButton(
+                        onPressed: () => addMinute1(),
+                        style: ButtonStyle(
+                            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                            shape: MaterialStateProperty.all(CircleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
+                                )
+                            )),
+                            backgroundColor: MaterialStateProperty.all(Colors.lightGreen[800]),
+                            elevation: MaterialStateProperty.all(20)
+                        ),
+                        child: const Text('+1', style: TextStyle(color: Colors.black)))
+                ),
+                SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: ElevatedButton(
+                        onPressed: () => substractMinute1(),
+                        style: ButtonStyle(
+                            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                            shape: MaterialStateProperty.all(CircleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
+                                )
+                            )),
+                            backgroundColor: MaterialStateProperty.all(Colors.indigo[800]),
+                            elevation: MaterialStateProperty.all(20)
+                        ),
+                        child: const Text('-1', style: TextStyle(color: Colors.black)))
+                )
               ],
             ),
             const SizedBox(height: 50,),
@@ -145,41 +204,90 @@ class _CountState extends State<Count> {
                 children:[
                   Container(
                       padding: const EdgeInsets.only(left: 20),
-                      child:Text('Second', style: TextStyle(color: Colors.black),textAlign: TextAlign.left))
+                      child:Text('Seconds', style: GoogleFonts.amiri(color: Colors.grey[400], fontSize: 20),textAlign: TextAlign.left)
+                  )
                 ]
             ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                    onPressed: () => addSecond5(),
-                    style: ButtonStyle(
-                        padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                    ),
-                    child: const Text('+5', style: TextStyle(color: Colors.white))),
-                ElevatedButton(
-                    onPressed: () => substractSecond5(),
-                    style: ButtonStyle(
-                        padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                    ),
-                    child: const Text('-5', style: TextStyle(color: Colors.white))),
-                ElevatedButton(
-                    onPressed: () => addSecond1(),
-                    style: ButtonStyle(
-                        padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                    ),
-                    child: const Text('+1', style: TextStyle(color: Colors.white))),
-                ElevatedButton(
-                    onPressed: () => substractSecond1(),
-                    style: ButtonStyle(
-                        padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                    ),
-                    child: const Text('-1', style: TextStyle(color: Colors.white))),
+                SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: ElevatedButton(
+                        onPressed: () => addSecond5(),
+                        style: ButtonStyle(
+                            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                            shape: MaterialStateProperty.all(CircleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
+                                )
+                            )),
+                            backgroundColor: MaterialStateProperty.all(Colors.pink[200]),
+                            elevation: MaterialStateProperty.all(20)
+                        ),
+                        child: const Text('+5', style: TextStyle(color: Colors.black)))
+                ),
+                SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: ElevatedButton(
+                        onPressed: () => substractSecond5(),
+                        style: ButtonStyle(
+                            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                            shape: MaterialStateProperty.all(CircleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
+                                )
+                            )),
+                            backgroundColor: MaterialStateProperty.all(Colors.brown[200]),
+                            elevation: MaterialStateProperty.all(20)
+                        ),
+                        child: const Text('-5', style: TextStyle(color: Colors.black)))
+                ),
+                SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: ElevatedButton(
+                        onPressed: () => addSecond1(),
+                        style: ButtonStyle(
+                            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                            shape: MaterialStateProperty.all(CircleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
+                                )
+                            )),
+                            backgroundColor: MaterialStateProperty.all(Colors.deepPurple[200]),
+                            elevation: MaterialStateProperty.all(20)
+                        ),
+                        child: const Text('+1', style: TextStyle(color: Colors.black)))
+                ),
+                SizedBox(
+                    height: 70,
+                    width: 70,
+                    child: ElevatedButton(
+                        onPressed: () => substractSecond1(),
+                        style: ButtonStyle(
+                            padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                            shape: MaterialStateProperty.all(CircleBorder(
+                                side: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                    style: BorderStyle.solid
+                                )
+                            )),
+                            backgroundColor: MaterialStateProperty.all(Colors.blue),
+                            elevation: MaterialStateProperty.all(20)
+                        ),
+                        child:  Text('-1', style: TextStyle(color: Colors.black)))
+                )
               ],
             ),
             const SizedBox(height: 100,),
@@ -189,12 +297,14 @@ class _CountState extends State<Count> {
                 child:
                   isCounting?ElevatedButton(onPressed: stopTimer,style: ButtonStyle(
                     padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                    ), child: const Text('STOP',style: TextStyle(color: Colors.white,fontSize: 30)))
+                    ), child:  Text('STOP', style: GoogleFonts.amiri(color: Colors.black87, fontSize: 30,fontWeight: FontWeight.bold),))
                     :ElevatedButton(onPressed: startTimer, style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.black26),
                     padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                   ),child: const Text('START',style: TextStyle(color: Colors.white,fontSize: 30)))
+                   ),child: Text('START', style: GoogleFonts.amiri(color: Colors.white, fontSize: 30,fontWeight: FontWeight.bold)))
             )
           ],
         )
