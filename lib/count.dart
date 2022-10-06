@@ -87,13 +87,20 @@ class _CountState extends State<Count> {
     });
   }
 
+  resetTimer(){
+    setState((){
+      time = DateTime(0);
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.grey[850],
         body: Column(
           children: [
-            const SizedBox(height: 120,),
+            const SizedBox(height: 100,),
             Material(
               color: Colors.grey[850],
               elevation: 30,
@@ -291,20 +298,31 @@ class _CountState extends State<Count> {
               ],
             ),
             const SizedBox(height: 100,),
-            SizedBox(
-                width: 200,
-                height: 80,
-                child:
-                  isCounting?ElevatedButton(onPressed: stopTimer,style: ButtonStyle(
-                    padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                    ), child:  Text('STOP', style: GoogleFonts.amiri(color: Colors.black87, fontSize: 30,fontWeight: FontWeight.bold),))
-                    :ElevatedButton(onPressed: startTimer, style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.black26),
-                    padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
-                   ),child: Text('START', style: GoogleFonts.amiri(color: Colors.white, fontSize: 30,fontWeight: FontWeight.bold)))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                  SizedBox(width: 50,),
+                  SizedBox(
+                      width: 200,
+                      height: 80,
+                      child:
+                      isCounting?ElevatedButton(onPressed: stopTimer,style: ButtonStyle(
+                          padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                          backgroundColor: MaterialStateProperty.all(Colors.white),
+                          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
+                      ), child:  Text('STOP', style: GoogleFonts.amiri(color: Colors.black87, fontSize: 30,fontWeight: FontWeight.bold),))
+                          :ElevatedButton(onPressed: startTimer, style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.black26),
+                          padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))
+                      ),child: Text('START', style: GoogleFonts.amiri(color: Colors.white, fontSize: 30,fontWeight: FontWeight.bold)))
+                  ),
+                SizedBox(width: 20,),
+                GestureDetector(
+                  child: Icon(Icons.refresh, color: Colors.white, size: 30,),
+                  onTap: () => resetTimer(),
+                )
+              ],
             )
           ],
         )
