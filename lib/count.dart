@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 class Count extends StatefulWidget {
   const Count({Key? key}) : super(key: key);
@@ -15,6 +18,7 @@ class _CountState extends State<Count> {
   DateTime time = DateTime(0);
   bool isCounting = false;
   late Timer timer;
+  late Timer alarm;
 
   addSecond5(){
     setState(() {
@@ -69,6 +73,7 @@ class _CountState extends State<Count> {
       const Duration(seconds: 1),
           (Timer timer) {
         if(time.minute==0&&time.second==0){
+          startAlarm();
           stopTimer();
           return;
         }
@@ -92,6 +97,24 @@ class _CountState extends State<Count> {
       time = DateTime(0);
     });
 
+  }
+
+  startAlarm(){
+    FlutterRingtonePlayer.playAlarm();
+    if(Platform.isIOS) {
+      alarm = Timer.periodic(const Duration(seconds: 4),
+              (Timer alarm) => {FlutterRingtonePlayer.playAlarm()});
+    }
+  }
+
+  stopAlarm(){
+    if(Platform.isAndroid){
+      FlutterRingtonePlayer.stop();
+    } else if (Platform.isIOS){
+      if (alarm.isActive) {
+        alarm.cancel();
+      }
+    }
   }
 
   @override

@@ -37,7 +37,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   intl: ^0.17.0
   table_calendar: ^3.0.6
-  riverpod: ^1.0.3
+  flutter_ringtone_player: ^3.2.0
+  firebase_core: ^2.3.0
+  cloud_firestore: ^4.1.0
+  flutter_riverpod: ^2.1.1
 
 dev_dependencies:
   flutter_test:
