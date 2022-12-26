@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:training/iconButton.dart';
 import 'package:training/model.dart';
 
 
@@ -7,23 +8,22 @@ class todoOperation extends StatelessWidget {
    todoOperation({Key? key}) : super(key: key);
 
   final CollectionReference<ToDo> todoRef = FirebaseFirestore.instance
-      .collection('todos')
+      .collection('todos').doc(timeEditingController.text).collection('work')
       .withConverter<ToDo>(
     fromFirestore: (snapshots, _) => ToDo.fromJson(snapshots.data()!),
     toFirestore: (todo, _) => todo.toJson(),
   );
 
 
-  addToDo({String? description}) async {
-    final todoSnapshot = await todoRef.get();
-    final todos = todoSnapshot.docs.length;
-    await todoRef.doc('${todos + 1}').set(
-        ToDo(
-            description: description!,
-            isCompleted: true,
-            key: (todos + 1).toString(),
-            createdAt: DateTime.now()
-        )
+  addToDo({String? description, DateTime? workDay}) async {
+    final workSnapshot = await todoRef.doc('$workDay').collection('work').get();
+    final workLength = workSnapshot.docs.length;
+    await todoRef.doc('work ${workLength + 1}').set(
+      ToDo(
+          description: description!,
+          isCompleted: true
+      ),
+      SetOptions(merge: true)
     );
   }
 
