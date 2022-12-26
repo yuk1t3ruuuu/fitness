@@ -5,6 +5,9 @@ import 'package:training/todoOperation.dart';
 
 
 TextEditingController descriptionEditingController = TextEditingController();
+TextEditingController timeEditingController = TextEditingController();
+
+DateTime? selectedDate;
 
 class ButtonActions extends ConsumerWidget{
   ButtonActions({Key? key}) : super(key: key);
@@ -28,7 +31,17 @@ class ButtonActions extends ConsumerWidget{
                             controller: descriptionEditingController,
                             decoration:  InputDecoration(labelText: 'タスク名', border: OutlineInputBorder()),
                           ),
-                          SizedBox(height: 30,)
+                          SizedBox(height: 10,),
+                          TextField(
+                            controller: timeEditingController,
+                            decoration:  InputDecoration(labelText: '予定日', border: OutlineInputBorder()),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                selectDate(context);
+                              },
+                              icon: Icon(Icons.calendar_today, color: Colors.red,)),
+                          SizedBox(height: 30)
                         ],
                       ),
                     ),
@@ -39,8 +52,9 @@ class ButtonActions extends ConsumerWidget{
                       ),
                       TextButton(
                         onPressed: (){
-                          todoOperation().addToDo(description: descriptionEditingController.text);
+                          todoOperation().addToDo(description: descriptionEditingController.text, workDay: DateTime.parse(timeEditingController.text));
                           descriptionEditingController.clear();
+                          timeEditingController.clear();
                           Navigator.pop(context, 'OK');
                         },
                         child: const Text('OK'),
@@ -54,4 +68,19 @@ class ButtonActions extends ConsumerWidget{
         icon: Icon(Icons.add));
 
   }
+
+  selectDate(BuildContext context) async {
+    final newSelectedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2040),
+    );
+
+    if (newSelectedDate != null) {
+      selectedDate = newSelectedDate;
+      timeEditingController.text = selectedDate.toString();
+    }
+  }
+
 }
