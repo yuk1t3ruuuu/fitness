@@ -2,6 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:training/iconButton.dart';
 import 'package:training/model.dart';
+import 'package:training/provider.dart';
+
+Map<DateTime, List> eventsList = {}; //このリストにfirestoreからとってきたデータを格納する
+List eventContents = [];
+
+var docData;
 
 
 class todoOperation extends StatelessWidget {
@@ -18,13 +24,26 @@ class todoOperation extends StatelessWidget {
   addToDo({String? description, DateTime? workDay}) async {
     final workSnapshot = await todoRef.doc('$workDay').collection('work').get();
     final workLength = workSnapshot.docs.length;
-    await todoRef.doc('work ${workLength + 1}').set(
-      ToDo(
-          description: description!,
-          isCompleted: true
-      ),
-      SetOptions(merge: true)
-    );
+
+
+
+    await todoRef.doc('work ${workLength + 1}').update({
+      'description': description!,
+      'isCompleted': true
+    }
+      );
+
+
+    todoRef.snapshots().listen((snapshot) {   //各日付に紐づけられているタスク内容(description)を取得しリストに格納する処理
+      eventContents = [];
+      snapshot.docs.map((doc) {
+         docData = doc.data().description;
+       eventContents.add(docData);
+      });
+      debugPrint('リストの中身$eventContents');
+    });
+
+
   }
 
   deleteToDo({int? key}) async {
@@ -63,6 +82,9 @@ class todoOperation extends StatelessWidget {
     }
     );
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
