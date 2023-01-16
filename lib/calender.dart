@@ -41,7 +41,7 @@ class Calender extends  ConsumerWidget{
       ),
       body: TableCalendar(
         firstDay: DateTime.utc(2022, 8, 1),
-        lastDay: DateTime.utc(2022, 12, 31),
+        lastDay: DateTime.utc(2023, 12, 31),
         eventLoader: getEvent,
         headerStyle: HeaderStyle(formatButtonVisible: false),
         focusedDay: focusedDay,
