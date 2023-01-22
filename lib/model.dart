@@ -16,7 +16,6 @@ class ToDo{
   final String description;
   final bool isCompleted;
 
-
   Map<String, Object?> toJson() {
     return {
       'description': description,
@@ -28,6 +27,36 @@ class ToDo{
     return ToDo(
         description: description?? this.description,
         isCompleted: isCompleted?? this.isCompleted,
+
+    );
+  }
+}
+
+
+
+@immutable
+class Date{
+  const Date({
+    required this.createdAt
+  });
+
+  Date.fromJson(Map<String, Object?> json)
+      :this(
+      createdAt: json['createdAt']! as DateTime
+  );
+
+
+  final DateTime createdAt;
+
+  Map<String, Object?> toJson() {
+    return {
+      'createdAt': createdAt
+    };
+  }
+
+  Date copyWith({DateTime? createdAt }) {
+    return Date(
+        createdAt: createdAt?? this.createdAt
     );
   }
 }
