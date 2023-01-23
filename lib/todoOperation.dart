@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:training/iconButton.dart';
 import 'package:training/model.dart';
 
@@ -44,37 +45,35 @@ class todoOperation extends StatelessWidget {
           description: description!,
           isCompleted: true
       ));
-
-    List dateDocsList = [];
-    final dateSnapshot = await dateRef.get();
-    dateSnapshot.docs.map((QueryDocumentSnapshot doc)  {
-      dateDocsList = [];
-      dateDocsList.add(doc!.id);
-    });
-
-    await Future.forEach(dateDocsList, (dateDoc) async{
-      final CollectionReference<ToDo> workRef = dateDoc.reference.collection('work')
-          .withConverter<ToDo>(
-          fromFirestore: (snapshots, _) => ToDo.fromJson(snapshots.data()!),
-          toFirestore: (todo, _) => todo.toJson()
-      );
-
-      final workSnapshot = await workRef.get();
-      final workDocs = workSnapshot.docs;
-      eventsList[DateTime.parse('$dateDoc')] = workDocs;
-    });
-
-
-
-
-
-
-
-
-
-
-
   }
+
+
+   getDocument() async{
+    List<String> workList = [];
+     final dateSnapshot = await dateRef.get();
+
+     for (final dateDoc in dateSnapshot.docs){
+       final CollectionReference<ToDo> workRef = dateDoc.reference.collection(
+           'work')
+           .withConverter<ToDo>(
+           fromFirestore: (snapshots, _) => ToDo.fromJson(snapshots.data()!),
+           toFirestore: (todo, _) => todo.toJson()
+       );
+       final workSnapshot = await workRef.get();
+
+        for (final workDoc in workSnapshot.docs)  {
+         workList.add(workDoc.data().description);
+       }
+       eventsList[DateTime.parse(dateDoc.id)] = workList;
+       workList = [];
+     }
+     debugPrint('中身$eventsList');
+
+
+
+   }
+
+
 
   @override
   Widget build(BuildContext context) {
