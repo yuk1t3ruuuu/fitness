@@ -52,8 +52,7 @@ class ButtonActions extends ConsumerWidget{
                       ),
                       TextButton(
                         onPressed: (){
-                          todoOperation().addToDo(description: descriptionEditingController.text, workDay: DateTime.parse(timeEditingController.text));
-                          todoOperation().getDocument();
+                          addToDo(description: descriptionEditingController.text, workDay: DateTime.parse(timeEditingController.text));
                           descriptionEditingController.clear();
                           timeEditingController.clear();
                           Navigator.pop(context, 'OK');

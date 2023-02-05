@@ -1,19 +1,8 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:training/iconButton.dart';
 import 'package:training/model.dart';
 
 
-Map<DateTime, List> eventsList = {}; //このリストにfirestoreからとってきたデータを格納する
-
-
-class todoOperation extends StatelessWidget {
-   todoOperation({Key? key}) : super(key: key);
-
-
+Map<DateTime, List> eventsList = {};
 
    final CollectionReference dateRef = FirebaseFirestore.instance
        .collection('todos')
@@ -23,7 +12,7 @@ class todoOperation extends StatelessWidget {
    );
 
 
-  addToDo({String? description, DateTime? workDay}) async {
+   addToDo({required String description, required DateTime workDay}) async {
     await dateRef.doc('$workDay').set(
       Date(
         createdAt: DateTime.now()
@@ -40,16 +29,39 @@ class todoOperation extends StatelessWidget {
     final workSnapshot = await workRef.get();
     final workLength = workSnapshot.docs.length;
 
-    await workRef.doc('work ${workLength + 1}').set(
+    await workRef.doc('${workLength + 1}').set(
       ToDo(
           description: description!,
-          isCompleted: true
       ));
+    getDocument();
   }
 
 
    getDocument() async{
-    List<String> workList = [];
+
+     List <String> _workList = [];
+     final dateSnapshot = await dateRef.get();
+
+     for (final dateDoc in dateSnapshot.docs){
+       _workList = [];
+       final CollectionReference<ToDo> workRef = dateDoc.reference.collection(
+           'work')
+           .withConverter<ToDo>(
+           fromFirestore: (snapshots, _) => ToDo.fromJson(snapshots.data()!),
+           toFirestore: (todo, _) => todo.toJson()
+       );
+       final workSnapshot = await workRef.get();
+       for (final workDoc in workSnapshot.docs) {
+        _workList.add(workDoc.data().description) ;
+       }
+       eventsList[DateTime.parse(dateDoc.id)] = _workList;
+     } return eventsList;
+   }
+
+
+
+
+   deleteDocument({required DateTime date, required String description})async{
      final dateSnapshot = await dateRef.get();
 
      for (final dateDoc in dateSnapshot.docs){
@@ -60,24 +72,54 @@ class todoOperation extends StatelessWidget {
            toFirestore: (todo, _) => todo.toJson()
        );
        final workSnapshot = await workRef.get();
+       String castDate = date.toString();
+       int lastPos = castDate.length - 1;
+       String result = castDate.substring(0, lastPos);
 
-        for (final workDoc in workSnapshot.docs)  {
-         workList.add(workDoc.data().description);
+
+       for (final workDoc in workSnapshot.docs){
+          if (result == dateDoc.id){
+            if (workDoc.data().description.contains(description)){
+               workRef.doc(workDoc.id).delete();
+               eventsList[result]?.remove(description);
+               getDocument();
+            }
+          }
+         }
        }
-       eventsList[DateTime.parse(dateDoc.id)] = workList;
-       workList = [];
      }
-     debugPrint('中身$eventsList');
+     
+     
+     updateDocument({required DateTime date, required String oldDesc, required String newDesc })async{
+       final dateSnapshot = await dateRef.get();
+       
+       for (final dateDoc in dateSnapshot.docs){
+         final CollectionReference<ToDo> workRef = dateDoc.reference.collection(
+             'work')
+             .withConverter<ToDo>(
+             fromFirestore: (snapshots, _) => ToDo.fromJson(snapshots.data()!),
+             toFirestore: (todo, _) => todo.toJson()
+         );
+         
+         final workSnapshot = await workRef.get();
+         String castDate = date.toString();
+         int lastPos = castDate.length - 1;
+         String result = castDate.substring(0, lastPos);
+         
+         for (final workDoc in workSnapshot.docs){
+           if (result == dateDoc.id){
+             if (workDoc.data().description.contains(oldDesc)){
+               await workRef.doc(workDoc.id).update({'description': newDesc});
+               int? index = eventsList[result]?.indexOf(oldDesc);
+               eventsList[result]?[index!] = newDesc;
+               getDocument();
+             }
+           }
+         }
+       }
+     }
 
 
 
-   }
 
 
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-
-}
