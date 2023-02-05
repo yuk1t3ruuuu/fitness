@@ -5,7 +5,6 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:training/count.dart';
 import 'package:training/rm_calc.dart';
-import 'package:training/home.dart';
 import 'package:training/calender.dart';
 
 
@@ -45,7 +44,6 @@ class _MainpageState extends State<Mainpage> {
   int _activeIndex = 0;
 
   final _pages = [
-    Home(),
     Calender(),
     Count(),
     RmCalculator()
@@ -57,11 +55,6 @@ class _MainpageState extends State<Mainpage> {
       body: _pages[_activeIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: 'ホーム',
-              backgroundColor: Color(0xFF303030)
-          ),
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
               label: 'スケジュール',
@@ -79,7 +72,7 @@ class _MainpageState extends State<Mainpage> {
           )
         ],
         unselectedItemColor: Colors.grey[400],
-        selectedItemColor: Colors.white,
+        selectedItemColor: Colors.black,
         showUnselectedLabels: true,
         currentIndex: _activeIndex,
         onTap: (index){
