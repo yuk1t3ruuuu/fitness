@@ -13,25 +13,25 @@ class _RmCalculatorState extends State<RmCalculator> {
   TextEditingController weightController = TextEditingController();
   TextEditingController repController = TextEditingController();
 
-  double _weight = 0; //使用重量
-  double _rep = 0;  //レップ数
-  final int _baseNumber = 10;  //桁数調整のため使用
-  double _maxRmResult = 0; //1RMの計算結果を格納するため使用
-  double _rm3Result = 0; //3RMの計算結果を格納するため使用
-  double _rm8Result = 0; //8RMの計算結果を格納するため使用
-  double _rm12Result = 0; //12RMの計算結果を格納するため使用
-  double _rm15Result = 0; //15RMの計算結果を格納するため使用
+  double _weight = 0;
+  double _rep = 0;
+  final int _baseNumber = 10;
+  double _maxRmResult = 0;
+  double _rm3Result = 0;
+  double _rm8Result = 0;
+  double _rm12Result = 0;
+  double _rm15Result = 0;
 
   double? _deviceWidth;
 
   maxRmCalc(){
-    //　使用重量*(1+(レップ数/40))で1RMを求められる
+
    _maxRmResult = ((_weight * (1 + (_rep / 40))) * _baseNumber).floor() / _baseNumber;
    return _maxRmResult;
   }
 
   rm3Calc(){
-    // 1RM/(1+(求めたいRM数/40)で任意のRM数を求められる
+
     _rm3Result = ((_maxRmResult / (1 + (3 / 40))) * _baseNumber).floor() / _baseNumber;
     return _rm3Result;
   }

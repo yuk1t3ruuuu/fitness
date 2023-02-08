@@ -54,25 +54,23 @@ class _MainpageState extends State<Mainpage> {
     return Scaffold(
       body: _pages[_activeIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF303030),
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
-              label: 'スケジュール',
-              backgroundColor: Color(0xFF303030)
+              label: 'schedule',
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
-              label: 'タイマー',
-              backgroundColor: Color(0xFF303030)
+              label: 'timer',
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
               label: 'RM',
-              backgroundColor: Color(0xFF303030)
           )
         ],
-        unselectedItemColor: Colors.grey[400],
-        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey[600],
+        selectedItemColor: Colors.white,
         showUnselectedLabels: true,
         currentIndex: _activeIndex,
         onTap: (index){

@@ -35,7 +35,8 @@ class Calender extends  ConsumerWidget{
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calender'),
+        backgroundColor: Colors.grey,
+        title: Text('Schedule'),
         actions: <Widget>[
           ButtonActions()
         ],

@@ -1,10 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+
 
 class Count extends StatefulWidget {
   const Count({Key? key}) : super(key: key);
@@ -24,48 +23,56 @@ class _CountState extends State<Count> {
     setState(() {
       time = time.add(Duration(seconds: 5));
     });
+    return;
   }
 
-  substractSecond5(){
+  subTractSecond5(){
     setState(() {
       time = time.subtract(Duration(seconds: 5));
     });
+    return;
   }
 
   addMinute5(){
     setState((){
       time = time.add(Duration(minutes: 5));
     });
+    return;
   }
 
-  substractMinute5(){
+  subTractMinute5(){
     setState(() {
       time = time.subtract(Duration(minutes: 5));
     });
+    return;
   }
 
   addSecond1(){
     setState(() {
       time = time.add(Duration(seconds: 1));
     });
+    return;
   }
 
-  substractSecond1(){
+  subTractSecond1(){
     setState(() {
       time = time.subtract(Duration(seconds: 1));
     });
+    return;
   }
 
   addMinute1(){
     setState((){
       time = time.add(Duration(minutes: 1));
     });
+    return;
   }
 
-  substractMinute1(){
+  subTractMinute1(){
     setState(() {
       time = time.subtract(Duration(minutes: 1));
     });
+    return;
   }
 
   startTimer(){
@@ -73,7 +80,6 @@ class _CountState extends State<Count> {
       const Duration(seconds: 1),
           (Timer timer) {
         if(time.minute==0&&time.second==0){
-          startAlarm();
           stopTimer();
           return;
         }
@@ -90,32 +96,17 @@ class _CountState extends State<Count> {
     setState(() {
       isCounting = false;
     });
+    return;
   }
 
   resetTimer(){
     setState((){
       time = DateTime(0);
     });
-
+    return;
   }
 
-  startAlarm(){
-    FlutterRingtonePlayer.playAlarm();
-    if(Platform.isIOS) {
-      alarm = Timer.periodic(const Duration(seconds: 4),
-              (Timer alarm) => {FlutterRingtonePlayer.playAlarm()});
-    }
-  }
 
-  stopAlarm(){
-    if(Platform.isAndroid){
-      FlutterRingtonePlayer.stop();
-    } else if (Platform.isIOS){
-      if (alarm.isActive) {
-        alarm.cancel();
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +165,7 @@ class _CountState extends State<Count> {
                     height: 70,
                     width: 70,
                     child: ElevatedButton(
-                        onPressed: () => substractMinute5(),
+                        onPressed: () => subTractMinute5(),
                         style: ButtonStyle(
                             padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
                             shape: MaterialStateProperty.all(CircleBorder(
@@ -212,7 +203,7 @@ class _CountState extends State<Count> {
                     height: 70,
                     width: 70,
                     child: ElevatedButton(
-                        onPressed: () => substractMinute1(),
+                        onPressed: () => subTractMinute1(),
                         style: ButtonStyle(
                             padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
                             shape: MaterialStateProperty.all(CircleBorder(
@@ -265,7 +256,7 @@ class _CountState extends State<Count> {
                     height: 70,
                     width: 70,
                     child: ElevatedButton(
-                        onPressed: () => substractSecond5(),
+                        onPressed: () => subTractSecond5(),
                         style: ButtonStyle(
                             padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
                             shape: MaterialStateProperty.all(CircleBorder(
@@ -303,7 +294,7 @@ class _CountState extends State<Count> {
                     height: 70,
                     width: 70,
                     child: ElevatedButton(
-                        onPressed: () => substractSecond1(),
+                        onPressed: () => subTractSecond1(),
                         style: ButtonStyle(
                             padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
                             shape: MaterialStateProperty.all(CircleBorder(
