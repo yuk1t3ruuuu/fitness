@@ -57,15 +57,15 @@ class _MainpageState extends State<Mainpage> {
         backgroundColor: Color(0xFF303030),
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
+              icon: Icon(Icons.event),
               label: 'schedule',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
+              icon: Icon(Icons.alarm),
               label: 'timer',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
+              icon: Icon(Icons.calculate),
               label: 'RM',
           )
         ],
